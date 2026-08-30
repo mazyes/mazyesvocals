@@ -19,8 +19,8 @@ namespace MazyesUI
 
         void drawPopupMenuBackground(juce::Graphics& g, int width, int height) override;
         void drawPopupMenuItem(juce::Graphics& g, const juce::Rectangle<int>& area,
-                               bool isHighlighted, bool isHeader, bool isSeparator,
-                               bool isEnabled, const juce::String& text,
+                               bool isSeparator, bool isActive, bool isHighlighted,
+                               bool hasSubMenu, const juce::String& text,
                                const juce::String& shortcutKeyText,
                                const juce::Drawable* icon, const juce::Colour* textColour) override;
 
