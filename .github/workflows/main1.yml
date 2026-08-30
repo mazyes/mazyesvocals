@@ -1,0 +1,40 @@
+name: Build MAZYES VOCALS VST3
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure
+        run: cmake -B build -S . -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build VST3
+        run: cmake --build build --config Release --parallel
+
+      - name: Find VST3
+        shell: pwsh
+        run: |
+          $vst3 = Get-ChildItem -Path . -Filter "*.vst3" -Recurse |
+            Select-Object -First 1
+
+          if (-not $vst3) {
+            Write-Error "No VST3 plugin was produced."
+            exit 1
+          }
+
+          Write-Host "Found VST3: $($vst3.FullName)"
+          New-Item -ItemType Directory -Force -Path artifact | Out-Null
+          Copy-Item $vst3.FullName artifact -Recurse
+
+      - name: Upload VST3
+        uses: actions/upload-artifact@v4
+        with:
+          name: MAZYES_VOCALS_Windows_VST3
+          path: artifact/
