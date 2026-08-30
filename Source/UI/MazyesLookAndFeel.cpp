@@ -130,8 +130,8 @@ namespace MazyesUI
     }
 
     void MazyesLookAndFeel::drawPopupMenuItem(juce::Graphics& g, const juce::Rectangle<int>& area,
-                                              bool isHighlighted, bool isHeader, bool isSeparator,
-                                              bool isEnabled, const juce::String& text,
+                                              bool isSeparator, bool isActive, bool isHighlighted,
+                                              bool hasSubMenu, const juce::String& text,
                                               const juce::String&, const juce::Drawable*,
                                               const juce::Colour*)
     {
@@ -142,7 +142,7 @@ namespace MazyesUI
             return;
         }
 
-        if (isHighlighted && isEnabled)
+        if (isHighlighted && isActive)
         {
             g.setColour(bgPanelLight);
             g.fillRect(area);
@@ -150,7 +150,7 @@ namespace MazyesUI
         }
         else
         {
-            g.setColour(isEnabled ? textPrimary : textDim);
+            g.setColour(isActive ? textPrimary : textDim);
         }
 
         g.setFont(juce::Font(13.0f, juce::Font::plain));
